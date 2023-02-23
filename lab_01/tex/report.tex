@@ -1,0 +1,348 @@
+
+
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[14pt]{extsizes}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{eucal}
+\usepackage{enumitem}
+%s\documentclass[openany]{book}
+\frenchspacing
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalsize\bfseries}
+{\thesection}
+{1em}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+\usepackage{indentfirst} % Красная строка
+
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\newcommand{\img}[3] {
+    \begin{figure}[h]
+        \center{\includegraphics[height=#1]{img/#2}}
+        \caption{#3}
+        \label{img:#2}
+    \end{figure}
+}
+
+
+% Для листинга кода:
+\lstset{ %
+	language=c,                 % выбор языка для подсветки (здесь это С)
+	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
+	numbers=left,               % где поставить нумерацию строк (слева\справа)
+	numberstyle=\tiny,           % размер шрифта для номеров строк
+	stepnumber=1,                   % размер шага между двумя номерами строк
+	numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
+	showspaces=false,            % показывать или нет пробелы специальными отступами
+	showstringspaces=false,      % показывать или нет пробелы в строках
+	showtabs=false,             % показывать или нет табуляцию в строках
+	frame=single,              % рисовать рамку вокруг кода
+	tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
+	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+	breaklines=true,           % автоматически переносить строки (да\нет)
+	breakatwhitespace=false, % переносить строки только если есть пробел
+	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+}
+
+
+\usepackage[left=3cm,right=1.5cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+% Для измененных титулов глав:
+\usepackage{titlesec, blindtext, color} % подключаем нужные пакеты
+\definecolor{gray75}{gray}{0.75} % определяем цвет
+\newcommand{\hsp}{\hspace{20pt}} % длина линии в 20pt
+% titleformat определяет стиль
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{18pt}{\Large\bfseries}
+
+
+% plot
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\begin{document}
+	%\def\chaptername{} % убирает "Глава"
+	\thispagestyle{empty}
+	\begin{titlepage}
+		\noindent \begin{minipage}{0.15\textwidth}
+			\includegraphics[width=\linewidth]{img/b_logo}
+		\end{minipage}
+		\noindent\begin{minipage}{0.9\textwidth}\centering
+			\textbf{Министерство науки и высшего образования Российской Федерации}\\
+			\textbf{Федеральное государственное бюджетное образовательное учреждение высшего образования}\\
+			\textbf{~~~«Московский государственный технический университет имени Н.Э.~Баумана}\\
+			\textbf{(национальный исследовательский университет)»}\\
+			\textbf{(МГТУ им. Н.Э.~Баумана)}
+		\end{minipage}
+		
+		\noindent\rule{18cm}{3pt}
+		\newline\newline
+		\noindent ФАКУЛЬТЕТ $\underline{\text{«Информатика и системы управления»}}$ \newline\newline
+		\noindent КАФЕДРА $\underline{\text{«Программное обеспечение ЭВМ и информационные технологии»}}$\newline\newline\newline\newline\newline
+		
+		\begin{center}
+			\noindent\begin{minipage}{1.1\textwidth}\centering
+				\Large\textbf{  Отчет по лабораторной работе №1}\newline
+				\textbf{по дисциплине <<Функциональное и логическое}\newline
+				\textbf{~~~программирование>>}\newline\newline
+			\end{minipage}
+		\end{center}
+		
+		\noindent\textbf{Тема} $\underline{\text{Списки в Lispe. Использование стандартных функций.}}$\newline\newline
+		\noindent\textbf{Студент} $\underline{\text{Завойских Е.В.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Группа} $\underline{\text{ИУ7-63Б~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Оценка (баллы)} $\underline{\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Преподаватели} $\underline{\text{Толпинская Н.Б., Строганов Ю.В.~~~~~~~~~~~~~}}$\newline\newline\newline
+		
+		\begin{center}
+			\vfill
+			Москва~---~\the\year
+			~г.
+		\end{center}
+	\end{titlepage}
+	
+\chapter{Теоретические вопросы}
+	
+\section{Элементы языка: определение, синтаксис, представление в памяти.}
+%Элементами языка Lisp являются атомы, списки и точечные пары.
+Вся информация (данные и программы) в Lisp представляется в виде символьных выражений --- S-выражений. По определению
+
+S-выражение ::= <атом>|<точечная пара>.
+
+\textbf{Атомы}
+\begin{itemize}
+    \item символы (идентификаторы) --- синтаксически --- набор литер (букв и цифр), начинающихся с буквы (например, ПримерАтома);
+    \item специальные символы --- {T, Nil} (используются для обозначения логических констант);
+    \item самоопределимые атомы --- натуральные числа, дробные числа, вещественные числа, строки --- последовательность символов, заключенных в двойные апострофы (например, “abc”);
+\end{itemize} 
+		
+\textbf{Списки и точечные пары (структуры)}
+
+Определения:
+
+Точечная пара ::= (<атом> . <атом>) | (<атом> . <точечная пара>) | 
+
+(<точечная пара> . <атом>) | (<точечная пара> . <точечная пара>);
+		
+Список ::= <пустой список> | <непустой список>, где 
+		
+<пустой список> ::= () | Nil,
+		
+<непустой список> ::= (<первый элемент> . <хвост>),
+		
+<первый элемент> ::= <S-выражение>,
+		
+<хвост> ::= <список>.
+
+
+Синтаксически:
+
+Любая структура (точечная пара или список) заключается в круглые скобки: (A . B) --- точечная пара, (A) --- список из одного элемента. Пустой список изображается как Nil или (); непустой список по определению может быть изображен: (A . (B . (C . (D . ())))),  допустимо изображение списка последовательностью атомов, разделенных пробелами --- (A B C D).
+
+Элементы списка могут быть списками (любой список заключается в круглые скобки), например --- (A (B C) (D С)). Таким образом, синтаксически наличие скобок является признаком структуры --- списка или точечной пары.
+
+Любая непустая структура Lisp в памяти представляется списковой ячейкой, хранящей два указателя: на голову (первый элемент) и хвост --- всё остальное.
+
+\img{25mm}{list1}{Представление в памяти (A B C D)}
+
+
+\section{Особенности языка Lisp. Структура программы. Символ апостроф.}
+
+Вся информация (данные и программы) в Lisp представляется в виде символьных выражений --- S-выражений.  
+
+Lisp --- язык символьной обработки. В Lisp программа и данные представлены списками. По умолчанию первый элемент списка трактуется как имя функции, а остальные --- как ее аргументы.
+
+Так как и программа, и данные представлены списками, то их нужно различать. Для этого была создана функция quote.
+
+Функция quote блокирует вычисление своего аргумента. Апостроф --- сокращённое обозначение функции quote. Перед самовычислимыми атомами (числами и атомами T, Nil) можно не ставить апостроф.
+
+
+\section{Базис языка Lisp. Ядро языка.}
+Базис --- это минимальный набор конструкций языка, на основе которых могут быть построены остальные.
+
+Базис Lisp:
+
+\begin{itemize}
+	\item атомы;
+        \item структуры;
+	\item базовые функции и базовые функционалы (cons, car, cdr, eval, quote, atom, eq).
+
+\end{itemize}
+
+\textbf{Атомы}
+\begin{itemize}
+    \item символы (идентификаторы) --- синтаксически --- набор литер (букв и цифр), начинающихся с буквы (например, ПримерАтома);
+    \item специальные символы --- {T, Nil} (используются для обозначения логических констант);
+    \item самоопределимые атомы --- натуральные числа, дробные числа, вещественные числа, строки --- последовательность символов, заключенных в двойные апострофы (например, “abc”);
+\end{itemize} 
+
+Более сложные данные --- списки и точечные пары (структуры) строятся из унифицированных структур --- блоков памяти --- бинарных узлов.
+
+	
+\chapter{Практические задания}	
+
+\section{Представить следующие списки в виде списочных ячеек}
+
+1. '(open close halph)
+
+\img{25mm}{1.1}{Представление в памяти '(open close halph)}
+
+2. '((open1) (close2) (halph3))
+
+\img{35mm}{1.2}{Представление в памяти '((open1) (close2) (halph3))}
+
+3. '((one) for all (and (me (for you))))
+
+\img{43mm}{1.3}{Представление в памяти '((one) for all (and (me (for you))))}
+
+4. '((TOOL) (call))
+
+\clearpage
+\img{40mm}{1.4}{Представление в памяти '((TOOL) (call))}
+
+5. '((TOOL1) ((call2)) ((sell)))
+
+\img{45mm}{1.5}{Представление в памяти '((TOOL1) ((call2)) ((sell)))}
+
+6. '(((TOOL) (call)) ((sell)))
+
+\img{45mm}{1.6}{Представление в памяти '(((TOOL) (call)) ((sell)))}
+
+\clearpage
+\section{Используя только функции CAR и CDR, написать выражения, возвращающие:}
+
+\begin{enumerate}
+        \item Второй элемент заданного списка
+
+        \begin{lstlisting}[language=Lisp]
+(CAR (CDR '(A B C D E))) -> B
+        \end{lstlisting}
+
+    \item Третий элемент заданного списка
+
+        \begin{lstlisting}[language=Lisp]
+(CAR (CDR (CDR '(A B C D E)))) -> C
+        \end{lstlisting}
+
+    \item Четвертый элемент заданного списка
+
+        \begin{lstlisting}[language=Lisp]
+(CAR (CDR (CDR (CDR '(A B C D E))))) -> D
+        \end{lstlisting}
+\end{enumerate}
+ 
+
+\section{Что будет в результате вычисления выражений?}
+
+\begin{enumerate}
+    \item (CAADR '((blue cube) (red pyramid))) -> red
+
+        \begin{lstlisting}[language=Lisp]
+(CDR '((blue cube) (red pyramid))) -> ((red pyramid))
+(CAR '((red pyramid))) -> (red pyramid)
+(CAR '(red pyramid)) -> red
+        \end{lstlisting}
+
+    \item (CDAR '((abc) (def) (ghi)) -> Nil
+
+        \begin{lstlisting}[language=Lisp]
+(CAR '((abc) (def) (ghi))) -> (abc)
+(CDR '(abc)) -> Nil
+        \end{lstlisting}
+
+    \item (CADR '((abc) (def) (ghi))) -> (def)
+
+        \begin{lstlisting}[language=Lisp]
+(CDR '((abc) (def) (ghi))) -> ((def) (ghi))
+(CAR '((def) (ghi))) -> (def)
+        \end{lstlisting}
+
+    \item (CADDR '((abc) (def) (ghi))) -> (ghi)
+
+        \begin{lstlisting}[language=Lisp]
+(CDR '((abc) (def) (ghi))) -> ((def) (ghi))
+(CDR '((def) (ghi))) -> ((ghi))
+(CAR '((ghi))) -> (ghi)
+        \end{lstlisting}
+\end{enumerate}
+
+
+\section{Напишите результат вычисления выражений и объясните, как он получен}
+
+quote блокирует вычисление своего аргумента. Перед  числами и атомами T, Nil можно не ставить апостроф. 
+
+list принимает произвольное число аргументов. Функция создает и возвращает список, состоящий из значений аргументов.
+
+cons имеет фиксированное количество аргументов (два). Если аргументами являются атомы, то создает точечную пару. Если первый аргумент --- атом, а второй --- список, атом становится головой, а второй аргумент (список) становится хвостом. 
+
+\begin{lstlisting}[language=Lisp]
+(list 'Fred 'and 'Wilma) -> (Fred and Wilma)
+(list 'Fred '(and Wilma)) -> (Fred (and Wilma))
+(cons Nil Nil) -> (Nil. Nil) -> (Nil)
+(cons T Nil) -> (T. Nil) -> (T)
+(cons Nil T) -> (Nil. T)
+(list Nil) -> (Nil)
+(cons '(T) Nil)	-> ((T). Nil) -> ((T))
+(list '(one two) '(free temp)) -> ((one two) (free temp))
+	
+(cons 'Fred '(and Willma)) -> (Fred and Willma)
+(cons 'Fred '(Wilma)) -> (Fred Willma)
+(list Nil Nil) -> (Nil Nil)
+(list T Nil) -> (T Nil)
+(list Nil T) -> (Nil T)
+(cons T (list Nil)) -> (T Nil)
+(list '(T) Nil) -> ((T) Nil)
+(cons '(one two) '(free temp)) -> ((one two) free temp)
+\end{lstlisting}
+
+\section{Написать лямбда-выражение и соответствующую функцию. Представить результаты в виде списочных ячеек.}
+
+\begin{enumerate}
+    \item Написать функцию (f ar1 ar2 ar3 ar4), возвращающую список: ((ar1 ar2) (ar3 ar4)).
+\begin{lstlisting}[language=Lisp] 
+(defun f (ar1 ar2 ar3 ar4) (list (list ar1 ar2) (list ar3 ar4)))
+(lambda (ar1 ar2 ar3 ar4) (list (list ar1 ar2) (list ar3 ar4)))
+\end{lstlisting}
+
+\img{32mm}{1}{Результаты первой функции}
+
+    \item Написать функцию (f ar1 ar2), возвращающую ((ar1) (ar2)).
+\begin{lstlisting}[language=Lisp]
+(defun f (ar1 ar2) (list (list ar1) (list ar2)))
+(lambda (ar1 ar2) (list (list ar1) (list ar2)))
+\end{lstlisting}
+
+\img{35mm}{2}{Результаты второй функции}
+
+    \item Написать функцию (f ar1), возвращающую (((ar1))).
+\begin{lstlisting}[language=Lisp]
+(defun f (ar1) (list (list (list ar1))))
+(lambda (ar1) (list (list (list ar1))))
+\end{lstlisting}
+
+\img{42mm}{3}{Результаты третьей функции}
+\end{enumerate}
+
+
+\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+\bibliography{51-biblio}          % имя библиографической базы (bib-файла)
+	
+\end{document}
