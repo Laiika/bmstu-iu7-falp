@@ -1,0 +1,365 @@
+
+
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[14pt]{extsizes}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{eucal}
+\usepackage{enumitem}
+%s\documentclass[openany]{book}
+\frenchspacing
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalsize\bfseries}
+{\thesection}
+{1em}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+\usepackage{indentfirst} % Красная строка
+
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\newcommand{\img}[3] {
+    \begin{figure}[h]
+        \center{\includegraphics[height=#1]{img/#2}}
+        \caption{#3}
+        \label{img:#2}
+    \end{figure}
+}
+
+
+% Для листинга кода:
+\lstset{ %
+	language=c,                 % выбор языка для подсветки (здесь это С)
+	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
+	numbers=left,               % где поставить нумерацию строк (слева\справа)
+	numberstyle=\tiny,           % размер шрифта для номеров строк
+	stepnumber=1,                   % размер шага между двумя номерами строк
+	numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
+	showspaces=false,            % показывать или нет пробелы специальными отступами
+	showstringspaces=false,      % показывать или нет пробелы в строках
+	showtabs=false,             % показывать или нет табуляцию в строках
+	frame=single,              % рисовать рамку вокруг кода
+	tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
+	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+	breaklines=true,           % автоматически переносить строки (да\нет)
+	breakatwhitespace=false, % переносить строки только если есть пробел
+	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+}
+
+
+\usepackage[left=3cm,right=1.5cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+% Для измененных титулов глав:
+\usepackage{titlesec, blindtext, color} % подключаем нужные пакеты
+\definecolor{gray75}{gray}{0.75} % определяем цвет
+\newcommand{\hsp}{\hspace{20pt}} % длина линии в 20pt
+% titleformat определяет стиль
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{18pt}{\Large\bfseries}
+
+
+% plot
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\begin{document}
+	%\def\chaptername{} % убирает "Глава"
+	\thispagestyle{empty}
+	\begin{titlepage}
+		\noindent \begin{minipage}{0.15\textwidth}
+			\includegraphics[width=\linewidth]{img/b_logo}
+		\end{minipage}
+		\noindent\begin{minipage}{0.9\textwidth}\centering
+			\textbf{Министерство науки и высшего образования Российской Федерации}\\
+			\textbf{Федеральное государственное бюджетное образовательное учреждение высшего образования}\\
+			\textbf{~~~«Московский государственный технический университет имени Н.Э.~Баумана}\\
+			\textbf{(национальный исследовательский университет)»}\\
+			\textbf{(МГТУ им. Н.Э.~Баумана)}
+		\end{minipage}
+		
+		\noindent\rule{18cm}{3pt}
+		\newline\newline
+		\noindent ФАКУЛЬТЕТ $\underline{\text{«Информатика и системы управления»}}$ \newline\newline
+		\noindent КАФЕДРА $\underline{\text{«Программное обеспечение ЭВМ и информационные технологии»}}$\newline\newline\newline\newline\newline
+		
+		\begin{center}
+			\noindent\begin{minipage}{1.1\textwidth}\centering
+				\Large\textbf{  Отчет по лабораторной работе №2}\newline
+				\textbf{по дисциплине <<Функциональное и логическое}\newline
+				\textbf{~~~программирование>>}\newline\newline
+			\end{minipage}
+		\end{center}
+		
+		\noindent\textbf{Тема} $\underline{\text{Определение функций пользователя~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Студент} $\underline{\text{Завойских Е.В.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Группа} $\underline{\text{ИУ7-63Б~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Оценка (баллы)} $\underline{\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Преподаватели} $\underline{\text{Толпинская Н.Б., Строганов Ю.В.~~~~~~~~~~~~~}}$\newline\newline\newline
+		
+		\begin{center}
+			\vfill
+			Москва~---~\the\year
+			~г.
+		\end{center}
+	\end{titlepage}
+	
+\chapter{Теоретические вопросы}
+	
+\section{Базис Lisp}
+
+Базис --- это минимальный набор конструкций языка, на основе которого могут быть построены остальные.
+
+Базис Lisp:
+
+\begin{itemize}
+	\item атомы;
+        \item структуры;
+	\item базовые функции и базовые функционалы.
+\end{itemize}
+
+
+\section{Классификация функций}
+
+\begin{itemize}
+	\item базисные функции;
+        \item функции ядра;
+	\item пользовательские функции.
+\end{itemize} 
+
+Классификация функций по аргументам и поведению:
+
+\begin{itemize}
+	\item чистые функции (фиксированное количество аргументов, для определенного набора аргументов один фиксированный результат);
+        \item формы (переменное количество аргументов или аргументы обрабатываются по-разному);
+	\item функционалы (принимают функцию в качестве аргумента или возвращают функцию).
+\end{itemize} 
+
+Классификация функций по назначению:
+
+\begin{itemize}
+	\item селекторы (car, cdr);
+        \item конструкторы (cons, list);
+	\item предикаты (atom, numberp);
+        \item функции сравнения (eq, eql, equal).
+\end{itemize} 
+
+
+\section{Способы создания функций}
+
+\begin{itemize}
+    \item с использованием $\lambda$-нотации (функции без имени)
+	
+            $\lambda$-выражение: (lambda $\lambda$-список тело\_функции), 
+            где $\lambda$-список --- формальные параметры функции.
+	
+            Вызов такой функции осуществляется следующим способом: ($\lambda$-выражение фактические параметры).
+
+            Вычисление функций без имени может быть выполнено с использованием функционала apply: (apply $\lambda$-выражение список\_фактических\_параметров); или с использованием функционала funcall: (funcall $\lambda$-выражение фактические\_параметры).
+	
+    \item с использованием макро-определения defun: 
+	
+	(defun имя\_функции $\lambda$-выражение), 
+	
+	или  в облегченной форме:
+	
+	(defun имя\_функции $(x_1, x_2, ..., x_k)$ тело\_функции), 
+	где $(x_1, x_2, ..., x_k)$ --- список аргументов.
+	
+	В качестве имени функции выступает символьный атом. 
+	Вызов именованной функции осуществляется следующим образом: (имя\_функции фактические параметры).
+\end{itemize} 
+
+
+\section{Функции car и cdr, eq, eql, equal, equalp}
+
+Функции car и cdr принимают точечную пару или список в качестве аргумента. Функция car возвращает голову (значение по первому указателю списковой ячейки). Функция cdr возвращает хвост (значение по второму указателю списковой ячейки).  
+
+eq, eql, equal, equalp --- функции сравнения:
+
+\begin{itemize}
+	\item eq сравнивает два символьных атома. Возвращает T, когда значением одного из аргументов является атом, и одновременно значения аргументов равны. В ином случае возвращает Nil;
+	\item eql сравнивает символьные атомы и числа одного типа. Например, (eql 3 3) -> T, (eql 3 3.0) -> Nil;
+	\item equal работает идентично eql + сравнивает списки (считая списки эквивалентными, если они рекурсивно, согласно тому же equal, имеют одинаковую структуру и содержимое);
+	\item equalp сравнивает символьные атомы, числа разных типов (и (equalp 1 1), и (equalp 1 1.0) вернет T) и списки. 
+\end{itemize}
+
+
+\section{Назначение и отличие в работе cons и list}
+
+cons принимает 2 аргумента, создает списковую ячейку и ставит указатели на 2 аргумента, таким образом объединяя их в точечную пару.
+
+Функция list, составляющая список из значений своих аргументов, создает столько списковых ячеек, сколько аргументов ей было передано. Эта функция относится к особым, поскольку у неё может быть произвольное число аргументов.
+
+Основные отличия:
+
+\begin{itemize}
+	\item cons принимает фиксированное количество аргументов, list --- произвольное. 
+	\item cons создает одну списковую ячейку, list --- список.
+\end{itemize}
+
+\chapter{Практические задания}	
+
+\section{Составить диаграмму вычисления следующих выражений:}
+
+\begin{enumerate}
+    \item (equal 3 (abs -3));
+    \item (equal (+ 1 2) 3);
+    \item (equal (* 4 7) 21);
+    \item (equal (* 2 3) (+ 7 2));
+    \item (equal (- 7 3) (* 3 2));
+    \item (equal (abs (- 2 4)) 3).
+\end{enumerate}
+
+Решение приложено к отчету на отдельном листе.
+
+
+\section{Написать функцию, вычисляющую гипотенузу прямоугольного треугольника по заданным катетам и составить диаграмму ее вычисления}
+
+\begin{lstlisting}[language=Lisp]
+(defun hyp (a b) (sqrt (+ (* a a) (* b b))))
+(hyp 3 4) -> 5
+\end{lstlisting}
+
+Диаграмма приложена к отчету на отдельном листе.
+ 
+
+\section{Каковы результаты вычисления следующих выражений? (объяснить возможную ошибку и варианты ее устранения)}
+
+\begin{enumerate}
+    \item (list 'a c)
+    
+    ошибка: variable C has no value
+        
+    решение: добавление ' перед c
+
+    \item (cons 'a (b c))
+
+    ошибка: undefined function B
+    
+    решение: добавление ' перед (b c)
+
+    \item (cons 'a '(b c))
+
+    (A B C)
+
+    \item (caddr (1 2 3 4 5))
+
+    ошибка: 1 is not a function name; try using a symbol instead
+
+    решение: добавление ' перед (1 2 3 4 5)
+
+    \item (cons 'a 'b 'c)
+
+    ошибка: too many arguments given to CONS: (CONS 'A 'B 'C)
+
+    решение: замена 'b 'c на '(b c)
+
+    \item (list 'a (b c))
+
+    ошибка: undefined function B
+
+    решение: добавление ' перед (b c)
+
+    \item (list a '(b c))
+
+    ошибка: variable A has no value
+
+    решение: добавление ' перед a
+
+    \item (list (+ 1 '(length '(1 2 3))))
+
+    ошибка: (LENGTH '(1 2 3)) is not a number
+
+    решение: убрать ' перед (length '(1 2 3))
+\end{enumerate}
+
+
+\section{Написать функцию $longer\_then$ от двух списков-аргументов, которая возвращает T, если первый аргумент имеет большую длину} 
+
+\begin{lstlisting}[language=Lisp]
+(defun longer_then (l1 l2) (> (length l1) (length l2)))
+\end{lstlisting}
+
+
+\section{Каковы результаты вычисления следующих выражений?}
+
+\begin{enumerate}
+    \item (cons 3 (list 5 6)) -> (3 5 6)
+
+    \item (cons 3 '(list 5 6)) -> (3 list 5 6)
+
+    \item (list 3 'from 9 'lives (- 9 3)) -> (3 from 9 lives 6)
+
+    \item (+ (length for 2 too) (car '(21 22 23))) -> variable FOR has no value
+
+    \item (cdr '(cons is short for ans)) -> (is short for ans)
+
+    \item (car (list one two)) -> variable ONE has no value
+
+    \item (car (list 'one 'two)) -> one
+
+\end{enumerate}
+
+
+\section{Дана функция (defun mystery (x) (list (second x) (first x))). Какие результаты вычисления следующих выражений?}
+
+\begin{enumerate}
+    \item (mystery (one two)) -> undefined function ONE
+
+    \item (mystery (last one two)) -> variable ONE has no value
+
+    \item (mystery free) -> variable FREE has no value
+
+    \item (mystery one 'two) -> variable ONE has no value
+
+\end{enumerate}
+
+
+\section{Написать функцию, которая переводит температуру в системе Фаренгейта в температуру по Цельсию (defun f\_to\_c (temp)...)}
+
+\begin{lstlisting}[language=Lisp]
+(defun f-to-c (temp) (* (/ 5 9) (- temp 32.0)))
+(f-to-c 451) -> 232.77779 
+\end{lstlisting}
+
+
+\section{Что получится при вычислении каждого из выражений?}
+
+\begin{enumerate}
+    \item (list 'cons t NIL) -> (cons t NIL)
+
+    \item (eval (list 'cons t NIL)) -> (t)
+
+    \item (eval (eval (list 'cons t NIL))) -> undefined function T
+
+    \item (apply #cons ''(t NIL)) -> bad syntax for complex number: #CONS
+
+    \item (eval NIL) -> NIL
+
+    \item (list 'eval NIL) -> (eval NIL)
+
+    \item (eval (list 'eval NIL)) -> NIL
+    
+
+\end{enumerate}
+
+\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+\bibliography{51-biblio}          % имя библиографической базы (bib-файла)
+	
+\end{document}
