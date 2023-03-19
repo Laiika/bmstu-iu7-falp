@@ -1,0 +1,373 @@
+
+
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[14pt]{extsizes}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{eucal}
+\usepackage{enumitem}
+%s\documentclass[openany]{book}
+\frenchspacing
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalsize\bfseries}
+{\thesection}
+{1em}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+\usepackage{indentfirst} % Красная строка
+
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\newcommand{\img}[3] {
+    \begin{figure}[h]
+        \center{\includegraphics[height=#1]{img/#2}}
+        \caption{#3}
+        \label{img:#2}
+    \end{figure}
+}
+
+
+% Для листинга кода:
+\lstset{ %
+	language=c,                 % выбор языка для подсветки (здесь это С)
+	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
+	numbers=left,               % где поставить нумерацию строк (слева\справа)
+	numberstyle=\tiny,           % размер шрифта для номеров строк
+	stepnumber=1,                   % размер шага между двумя номерами строк
+	numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
+	showspaces=false,            % показывать или нет пробелы специальными отступами
+	showstringspaces=false,      % показывать или нет пробелы в строках
+	showtabs=false,             % показывать или нет табуляцию в строках
+	frame=single,              % рисовать рамку вокруг кода
+	tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
+	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+	breaklines=true,           % автоматически переносить строки (да\нет)
+	breakatwhitespace=false, % переносить строки только если есть пробел
+	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+}
+
+
+\usepackage[left=3cm,right=1.5cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+% Для измененных титулов глав:
+\usepackage{titlesec, blindtext, color} % подключаем нужные пакеты
+\definecolor{gray75}{gray}{0.75} % определяем цвет
+\newcommand{\hsp}{\hspace{20pt}} % длина линии в 20pt
+% titleformat определяет стиль
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{18pt}{\Large\bfseries}
+
+
+% plot
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\begin{document}
+	%\def\chaptername{} % убирает "Глава"
+	\thispagestyle{empty}
+	\begin{titlepage}
+		\noindent \begin{minipage}{0.15\textwidth}
+			\includegraphics[width=\linewidth]{img/b_logo}
+		\end{minipage}
+		\noindent\begin{minipage}{0.9\textwidth}\centering
+			\textbf{Министерство науки и высшего образования Российской Федерации}\\
+			\textbf{Федеральное государственное бюджетное образовательное учреждение высшего образования}\\
+			\textbf{~~~«Московский государственный технический университет имени Н.Э.~Баумана}\\
+			\textbf{(национальный исследовательский университет)»}\\
+			\textbf{(МГТУ им. Н.Э.~Баумана)}
+		\end{minipage}
+		
+		\noindent\rule{18cm}{3pt}
+		\newline\newline
+		\noindent ФАКУЛЬТЕТ $\underline{\text{«Информатика и системы управления»}}$ \newline\newline
+		\noindent КАФЕДРА $\underline{\text{«Программное обеспечение ЭВМ и информационные технологии»}}$\newline\newline\newline\newline\newline
+		
+		\begin{center}
+			\noindent\begin{minipage}{1.1\textwidth}\centering
+				\Large\textbf{  Отчет по лабораторной работе №3}\newline
+				\textbf{по дисциплине <<Функциональное и логическое}\newline
+				\textbf{~~~программирование>>}\newline\newline
+			\end{minipage}
+		\end{center}
+		
+		\noindent\textbf{Тема} $\underline{\text{Работа интерпретатора Lisp~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Студент} $\underline{\text{Завойских Е.В.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Группа} $\underline{\text{ИУ7-63Б~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Оценка (баллы)} $\underline{\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Преподаватели} $\underline{\text{Толпинская Н.Б., Строганов Ю.В.~~~~~~~~~~~~~}}$\newline\newline\newline
+		
+		\begin{center}
+			\vfill
+			Москва~---~\the\year
+			~г.
+		\end{center}
+	\end{titlepage}
+	
+\chapter{Теоретические вопросы}
+	
+\section{Базис Lisp}
+
+Базис --- это минимальный набор конструкций языка, на основе которого могут быть построены остальные.
+
+Базис Lisp:
+
+\begin{itemize}
+	\item атомы;
+        \item структуры;
+	\item базовые функции и базовые функционалы.
+\end{itemize}
+
+
+\section{Классификация функций}
+
+\begin{itemize}
+	\item базисные функции;
+        \item функции ядра;
+	\item пользовательские функции.
+\end{itemize} 
+
+Классификация функций по аргументам и поведению:
+
+\begin{itemize}
+	\item чистые функции (фиксированное количество аргументов, для определенного набора аргументов один фиксированный результат);
+        \item формы (переменное количество аргументов или аргументы обрабатываются по-разному);
+	\item функционалы (принимают функцию в качестве аргумента или возвращают функцию).
+\end{itemize} 
+
+Классификация функций по назначению:
+
+\begin{itemize}
+	\item селекторы (car, cdr);
+        \item конструкторы (cons, list);
+	\item предикаты (atom, numberp);
+        \item функции сравнения (eq, eql, equal).
+\end{itemize} 
+
+
+\section{Способы создания функций}
+
+\begin{itemize}
+    \item с использованием $\lambda$-нотации (функции без имени)
+	
+            $\lambda$-выражение: (lambda $\lambda$-список тело\_функции), 
+            где $\lambda$-список --- формальные параметры функции.
+	
+            Вызов такой функции осуществляется следующим способом: ($\lambda$-выражение фактические параметры).
+
+            Вычисление функций без имени может быть выполнено с использованием функционала apply: (apply $\lambda$-выражение список\_фактических\_параметров); или с использованием функционала funcall: (funcall $\lambda$-выражение фактические\_параметры).
+	
+    \item с использованием макро-определения defun: 
+	
+	(defun имя\_функции $\lambda$-выражение), 
+	
+	или  в облегченной форме:
+	
+	(defun имя\_функции $(x_1, x_2, ..., x_k)$ тело\_функции), 
+	где $(x_1, x_2, ..., x_k)$ --- список аргументов.
+	
+	В качестве имени функции выступает символьный атом. 
+	Вызов именованной функции осуществляется следующим образом: (имя\_функции фактические параметры).
+\end{itemize} 
+
+
+\section{Работа функций Cond, if, and/or}
+
+\subsection{Функция cond}
+
+Синтаксис:
+
+\begin{lstlisting}[language=Lisp]
+(cond
+    (test1 body1)
+    (test2 body2)
+    ...
+    (testN bodyN)
+    [(T else-body)])
+\end{lstlisting}
+
+По порядку вычисляются и проверяются на равенство с Nil выражения test\_i. Для
+первого из них, которое не равно Nil, вычисляется находящееся с ним
+в списке выражение и возвращается его значение. Если все выражения test\_i вернут Nil, то и cond вернет Nil. Ветка <<else>> организуется явным указанием в
+качестве test --- T.
+
+\subsection{Функция if}
+
+Синтаксис:
+
+\begin{lstlisting}[language=Lisp]
+(if test t-body f-body)
+\end{lstlisting}
+
+Если test не Nil, то выполняется t-body, иначе --- \mbox{f-body}.
+
+\subsection{Функция and}
+
+Синтаксис:
+
+\begin{lstlisting}[language=Lisp]
+(and arg1 arg2 ... argN)
+\end{lstlisting}
+
+Функция возвращает Nil при встрече первого (при вычислении слева направо)
+аргумента со значением Nil. Если
+все не Nil, то возвращается результат вычисления последнего аргумента.
+
+\subsection{Функция or}
+
+Синтаксис:
+
+\begin{lstlisting}[language=Lisp]
+(or arg1 arg2 ... argN)
+\end{lstlisting}
+
+Функция возвращает первый arg\_i, результат вычисления которого не
+Nil. Если все Nil, то возвращается Nil.
+
+
+	
+\chapter{Практические задания}	
+
+\section{Написать функцию, которая принимает целое число и возвращает первое
+четное число, не меньшее аргумента.}
+
+\begin{lstlisting}[language=Lisp]
+(defun f1 (num) (if (evenp num) num (+ num 1)))
+\end{lstlisting}
+
+
+\section{Написать функцию, которая принимает число и возвращает число
+того же знака, но с модулем на 1 больше модуля аргумента.}
+
+\begin{lstlisting}[language=Lisp]
+(defun f2 (num) (if (< num 0) (- num 1) (+ num 1)))
+\end{lstlisting}
+ 
+
+\section{Написать функцию, которая принимает два числа и возвращает
+список из этих чисел, расположенных по возрастанию.}
+
+\begin{lstlisting}[language=Lisp]
+(defun f3 (num1 num2) (if (< num1 num2) (list num1 num2) (list num2 num1)))
+\end{lstlisting}
+
+
+\section{Написать функцию, которая принимает три числа и возвращает Т только
+тогда, когда первое число расположено между вторым и третьим.} 
+
+\begin{lstlisting}[language=Lisp]
+(defun f4 (num1 num2 num3) (or 
+                              (and (< num1 num2) (< num3 num1)) 
+                              (and (< num1 num3) (< num2 num1)) ) )
+\end{lstlisting}
+
+
+\section{Каков результат вычисления следующих выражений?}
+
+\begin{enumerate}
+    \item (and 'fee 'fie 'foe) -> foe
+    \item (or 'fee 'fie 'foe) -> fee
+    \item (or nil 'fie 'foe) -> fie
+    \item (and nil 'fie 'foe) -> nil
+    \item (and (equal 'abc 'abc) 'yes) -> yes
+    \item (or (equal 'abc 'abc) 'yes) -> T
+
+\end{enumerate}
+
+
+\section{Написать предикат, который принимает два числа-аргумента и возвращает
+Т, если первое число не меньше второго.}
+
+\begin{lstlisting}[language=Lisp]
+(defun pred (num1 num2) (>= num1 num2))
+\end{lstlisting}
+
+
+\section{Какой из следующих двух вариантов предиката ошибочен и почему?}
+
+\begin{lstlisting}[language=Lisp]
+(defun pred1 (x) 
+(and (numberp x) (plusp x)))
+\end{lstlisting}
+
+\begin{lstlisting}[language=Lisp]
+(defun pred2 (x)
+(and (plusp x)(numberp x)))
+\end{lstlisting}
+
+Корректным является первый вариант предиката. Первым будет вычислено значение выражения (numberp x), которое проверит, является ли переданный аргумент числовым атомом. Если это не так, то (numberp x) вернет Nil, на чем вычисление функции and прервется, и результатом всего предиката pred1 будет NIL. Если же переданный аргумент является числовым атомом, то следующим будет вычислено значение выражения (plusp x). Это выражение проверит, является ли переданный числовой атом большим нуля, и станет результатом всего предиката pred1.
+
+Второй вариант является ошибочным. В нем первым будет вычислено значение выражения (plusp x), но plusp принимает только числовой атом, и если x не является числовым атомом, то вычисление всего предиката pred2 завершится с ошибкой.
+
+
+\section{Решить задачу 4, используя для ее решения конструкции:
+только IF, только COND, только AND/OR.}
+
+\begin{lstlisting}[language=Lisp]
+; if
+(defun f4 (num1 num2 num3) (if (< num1 num2) (< num3 num1) 
+                               (if (< num2 num1) (< num1 num3)) ) )
+
+; cond
+(defun f4 (num1 num2 num3) (cond ((< num1 num2) (< num3 num1)) 
+                                 ((< num2 num1) (< num1 num3)) ) )
+
+; and/or
+(defun f4 (num1 num2 num3) (or (and (< num1 num2) (< num3 num1)) 
+                               (and (< num1 num3) (< num2 num1)) ) )
+\end{lstlisting}
+
+
+\section{Переписать функцию how-alike, приведенную в лекции и использующую COND, используя только конструкции IF, AND/OR.}
+
+\begin{lstlisting}[language=Lisp]
+; исходно
+(defun how_alike (x y)
+       (cond ((or (= x y) (equal x y)) 'the_same)
+             ((and (oddp x) (oddp y)) 'both_odd)
+             ((and (evenp x) (evenp y)) 'both_even)
+             (t 'difference) ) )
+
+; if
+(defun how-alike1 (x y) 
+        (if (if (= x y) t (equal x y)) 'the_same
+            (if (if (oddp x) (oddp y)) 'both_odd 
+                (if (if (evenp x) (evenp y)) 'both_even 'difference) ) ) )
+
+; cond         
+(defun how_alike2 (x y)
+       (cond ((= x y) 'the_same)
+             ((equal x y) 'the_same)
+             ((cond ((oddp x) (oddp y)) ) 'both_odd)
+             ((cond ((evenp x) (evenp y)) ) 'both_even)
+             (t 'difference) ) )
+
+; and/or
+(defun how_alike3 (x y)
+       (or (and (or (= x y) (equal x y)) 'the_same)
+           (and (and (oddp x) (oddp y)) 'both_odd)
+           (and (and (evenp x) (evenp y)) 'both_even)
+           'difference) )
+\end{lstlisting}
+
+
+
+\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+\bibliography{51-biblio}          % имя библиографической базы (bib-файла)
+	
+\end{document}
