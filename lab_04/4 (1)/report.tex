@@ -1,0 +1,439 @@
+
+
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[14pt]{extsizes}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{eucal}
+\usepackage{enumitem}
+%s\documentclass[openany]{book}
+\frenchspacing
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalsize\bfseries}
+{\thesection}
+{1em}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+\usepackage{indentfirst} % Красная строка
+
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\newcommand{\img}[3] {
+    \begin{figure}[h]
+        \center{\includegraphics[height=#1]{img/#2}}
+        \caption{#3}
+        \label{img:#2}
+    \end{figure}
+}
+
+
+% Для листинга кода:
+\lstset{ %
+	language=c,                 % выбор языка для подсветки (здесь это С)
+	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
+	numbers=left,               % где поставить нумерацию строк (слева\справа)
+	numberstyle=\tiny,           % размер шрифта для номеров строк
+	stepnumber=1,                   % размер шага между двумя номерами строк
+	numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
+	showspaces=false,            % показывать или нет пробелы специальными отступами
+	showstringspaces=false,      % показывать или нет пробелы в строках
+	showtabs=false,             % показывать или нет табуляцию в строках
+	frame=single,              % рисовать рамку вокруг кода
+	tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
+	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+	breaklines=true,           % автоматически переносить строки (да\нет)
+	breakatwhitespace=false, % переносить строки только если есть пробел
+	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+}
+
+
+\usepackage[left=3cm,right=1.5cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+% Для измененных титулов глав:
+\usepackage{titlesec, blindtext, color} % подключаем нужные пакеты
+\definecolor{gray75}{gray}{0.75} % определяем цвет
+\newcommand{\hsp}{\hspace{20pt}} % длина линии в 20pt
+% titleformat определяет стиль
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{18pt}{\Large\bfseries}
+
+
+% plot
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\begin{document}
+	%\def\chaptername{} % убирает "Глава"
+	\thispagestyle{empty}
+	\begin{titlepage}
+		\noindent \begin{minipage}{0.15\textwidth}
+			\includegraphics[width=\linewidth]{img/b_logo}
+		\end{minipage}
+		\noindent\begin{minipage}{0.9\textwidth}\centering
+			\textbf{Министерство науки и высшего образования Российской Федерации}\\
+			\textbf{Федеральное государственное бюджетное образовательное учреждение высшего образования}\\
+			\textbf{~~~«Московский государственный технический университет имени Н.Э.~Баумана}\\
+			\textbf{(национальный исследовательский университет)»}\\
+			\textbf{(МГТУ им. Н.Э.~Баумана)}
+		\end{minipage}
+		
+		\noindent\rule{18cm}{3pt}
+		\newline\newline
+		\noindent ФАКУЛЬТЕТ $\underline{\text{«Информатика и системы управления»}}$ \newline\newline
+		\noindent КАФЕДРА $\underline{\text{«Программное обеспечение ЭВМ и информационные технологии»}}$\newline\newline\newline\newline\newline
+		
+		\begin{center}
+			\noindent\begin{minipage}{1.1\textwidth}\centering
+				\Large\textbf{  Отчет по лабораторной работе №4}\newline
+				\textbf{по дисциплине <<Функциональное и логическое}\newline
+				\textbf{~~~программирование>>}\newline\newline
+			\end{minipage}
+		\end{center}
+		
+		\noindent\textbf{Тема} $\underline{\text{Использование управляющих структур, работа со списками}}$\newline\newline
+		\noindent\textbf{Студент} $\underline{\text{Завойских Е.В.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Группа} $\underline{\text{ИУ7-63Б~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Оценка (баллы)} $\underline{\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Преподаватели} $\underline{\text{Толпинская Н.Б., Строганов Ю.В.~~~~~~~~~~~~~}}$\newline\newline\newline
+		
+		\begin{center}
+			\vfill
+			Москва~---~\the\year
+			~г.
+		\end{center}
+	\end{titlepage}
+	
+\chapter{Теоретические вопросы}
+	
+\section{Синтаксическая форма и хранение программы в памяти}
+
+Синтаксически программа оформляется в виде S-выражения, которое может быть структурированным. Наличие скобок является признаком структуры. 
+
+По определению:
+\begin{itemize}
+	\item S-выражение ::= <атом> | <точечная пара>
+
+	\item Атомы:
+\begin{itemize} 
+	\item символы (идентификаторы) --- синтаксически --- набор литер (букв и цифр), начинающихся с буквы;
+	\item специальные символы --- {T, Nil} (используются для обозначения логических констант);
+	\item самоопределимые атомы --- натуральные числа, дробные числа, вещественные числа, строки --- последовательность символов, заключенных в двойные апострофы (например, “abc”);
+\end{itemize} 
+
+
+\item Точечная пара ::= (<атом> . <атом>) | (<атом> . <точечная пара>) | (<точечная пара> . <атом>) | (<точечная пара> . <точечная пара>);
+
+\item Список ::= <пустой список> | <непустой список>, где 
+
+<пустой список> ::= () | Nil,
+
+<непустой список> ::= (<первый элемент> . <хвост>),
+
+<первый элемент> ::= <S-выражение>,
+
+<хвост> ::= <список>.
+
+\end{itemize}
+
+Атомы представляются в памяти пятью указателями: name, value, function, property, package; точечная пара --- списковой ячейкой (бинарным узлом), хранящей два указателя: car-указатель (на голову) и cdr-указатель (на хвост).
+
+
+\section{Трактовка элементов списка}
+
+По умолчанию список является формой (вычислимым выражением), в которой первый
+элемент трактуется как имя фунции, остальные элементы --- как ее аргументы.  Чтобы была возможность отличить программу от данных создана функция quote и ее сокращенное обозначение --- апостроф \texttt{'}. Функция quote блокирует
+вычисление своего аргумента и возращает его текстовую запись.
+
+
+\section{Порядок реализации программы}
+
+Лисп-программа включает в себя:
+\begin{itemize}
+	\item определения новых функций на базе встроенных функций и других функций, определённых в этой программе;
+	\item вызовы этих новых функций для конкретных значений их аргументов.
+\end{itemize}
+
+Лисп-программа представляет собой вызов функции на верхнем уровне и синтаксически оформляется в виде S-выражения.
+Выполнение программы заключается в вычислении значений функций для конкретных
+значений аргументов. Вычисление функции происходит с помощью функции eval. Функция eval принимает в качестве аргумента S-выражение и вычисляет его.  Если вычислять значение выражения не нужно, используют
+функцию quote.
+
+
+\section{Способы определения функции}
+
+\begin{itemize}
+    \item с использованием $\lambda$-нотации (функции без имени)
+	
+            $\lambda$-выражение: (lambda $\lambda$-список тело\_функции), 
+            где $\lambda$-список --- формальные параметры функции.
+	
+            Вызов такой функции осуществляется следующим способом: ($\lambda$-выражение фактические параметры).
+
+            Вычисление функций без имени может быть выполнено с использованием функционала apply: (apply $\lambda$-выражение список\_фактических\_параметров); или с использованием функционала funcall: (funcall $\lambda$-выражение фактические\_параметры).
+	
+    \item с использованием макро-определения defun: 
+	
+	(defun имя\_функции $\lambda$-выражение), 
+	
+	или  в облегченной форме:
+	
+	(defun имя\_функции $(x_1, x_2, ..., x_k)$ тело\_функции), 
+	где $(x_1, x_2, ..., x_k)$ --- список аргументов.
+	
+	В качестве имени функции выступает символьный атом. 
+	Вызов именованной функции осуществляется следующим образом: (имя\_функции фактические параметры).
+\end{itemize} 
+
+
+\section{Работа со списками}
+
+В Lisp существует множество функций для работы со списками:
+
+\begin{itemize}
+    \item (cons arg1 arg2) --- создает списковую ячейку. Если arg2 --- список, то функция вернет список, иначе --- точечную пару.
+    \item (list arg1 arg2 arg3 ...) --- создает список из значений своих аргументов.
+    \item (append lst1 lst2 lst3 ...) --- объединяет списки (работает с копиями
+списковых ячеек, не копируется только последний список-аргумент). nconc ---альтернатива (конкатенация самих списков, а не их копий).
+    \item (reverse lst) --- переворачивает список в обратную сторону по верхнему уровню. nreverse --- альтернатива (работает с самим списком, не создает копию).
+    \item (last lst) --- возвращает последнюю списковую ячейку.
+    \item (nth n lst) --- возвращает n-ый элемент списка.
+    \item (nthcdr n lst) --- возвращает n-ый хвост списка.
+    \item (length lst) --- возвращает длину списка по верхнему уровню.
+    \item (remove elem lst) --- удаляет списковую ячейку, используя функцию
+eql.
+    \item (rplaca lst elem) --- меняет первый элемент списка на elem.
+    \item (rplacd lst arg) --- меняет хвост списка на arg.
+    \item (member elem lst) --- возвращает список, начиная с найденного элемента
+elem (или Nil).
+    \item (union lst1 lst2) --- объединение множеств.
+    \item (intersection lst1 lst2) --- пересечение множеств.
+    \item (set-difference lst1 lst2) --- дополнение lst1 до lst2.
+    \item (assoc elem table) --- возвращает точечную пару, в которой ключ равен
+elem.
+    \item (rassoc elem table) --- возвращает точечную пару, в которой значение
+равно elem.
+\end{itemize}
+
+	
+\chapter{Практические задания}	
+
+\section{Чем принципиально отличаются функции cons, list, append?
+Пусть (setf lst1 '( a b c))
+(setf lst2 '( d e)).
+Каковы результаты вычисления следующих выражений?
+ (cons lst1 lst2)
+ (list lst1 lst2)
+ (append lst1 lst2)}
+ 
+cons принимает 2 аргумента, создает списковую ячейку и ставит указатели
+на 2 аргумента, таким образом объединяя их в точечную пару.
+
+list, составляющая список из значений своих аргументов, создает столько списковых ячеек, сколько аргументов ей было передано. Эта функция относится к особым, поскольку у неё может быть произвольное число аргументов.
+
+append принимает произвольное количество аргументов-списков и соединяет элементы верхнего уровня всех списков в один список. Действие append иногда называют конкатенацией списков. Функцией создаются копии всех списков, кроме последнего. В результате должен быть построен новый список.
+Если последний переданный список будет модифицирован, то  итоговый список будет также изменен.
+
+Основные отличия: list и append принимают произвольное количество аргументов, cons --- фиксированное (два); cons создает одну списковую ячейку (в зависимости от второго аргумента может получится список или точечная пара), list и append --- список; cons и list создают новые списковые ячейки (все), а append имеет общие списковые ячейки с последним списком.
+
+
+\begin{lstlisting}[language=Lisp]
+(setf lst1 '( a b c))
+(setf lst2 '( d e))
+
+(cons lst1 lst2) -> ((a b c) d e)
+(list lst1 lst2) -> ((a b c) (d e))
+(append lst1 lst2) -> (a b c d e)
+
+\end{lstlisting}
+
+
+\section{Каковы результаты вычисления следующих выражений, и почему?}
+
+\textbf{reverse} переворачивает свой список-аргумент, т.е. меняет порядок его элементов  верхнего уровня на противоположный.
+
+\textbf{last} возвращает последнюю cons-ячейку в списке. Если вызывается с целочисленным аргументом n, возвращает n ячеек (по умолчанию n = 1).
+Если n больше или равно количеству cons-ячеек в списке, результатом будет исходный список.
+
+\begin{lstlisting}[language=Lisp]
+(reverse '(a b c)) -> (c b a)               
+(reverse ()) -> ()
+(reverse '(a b (c (d)))) -> ((c (d)) b a)   
+(reverse '((a b c))) -> ((a b c))
+(reverse '(a)) -> (a)
+(last '(a b c)) -> (c)                      
+(last '(a b (c))) -> ((c))
+(last '(a)) -> (a)                          
+(last ()) -> ()
+(last '((a b c))) -> ((a b c))
+
+\end{lstlisting}
+ 
+
+\section{Написать, по крайней мере, два варианта функции, которая возвращает
+последний элемент своего списка-аргумента}
+
+\begin{lstlisting}[language=Lisp]
+(defun f1 (lst) 
+    (car (last lst)) )
+
+(defun f2 (lst) 
+    (car (reverse lst)) )
+\end{lstlisting}
+
+
+\section{Написать, по крайней мере, два варианта функции, которая возвращает
+свой список-аргумент без последнего элемента. } 
+
+\begin{lstlisting}[language=Lisp]
+(defun f1 (lst) 
+    (reverse (cdr (reverse lst))) )
+
+(defun f2 (lst) 
+    (if (cdr lst)
+        (cons (car lst) (f2 (cdr lst)) ) ) )
+
+(defun f3 (lst) (butlast lst))
+\end{lstlisting}
+
+
+\section{Напишите функцию swap-first-last, которая переставляет в списке-аргументе первый и последний элементы.}
+
+\begin{lstlisting}[language=Lisp]
+(defun without-last (lst) 
+    (reverse (cdr (reverse lst))) )
+    
+(defun swap-first-last (lst) 
+    (append (last lst) (without-last (cdr lst)) (list (car lst)) ) )
+\end{lstlisting}
+
+
+\section{Написать простой вариант игры в кости, в котором бросаются две
+правильные кости. Если сумма выпавших очков равна 7 или 11 ---
+выигрыш, если выпало (1,1) или (6,6) --- игрок имеет право снова
+бросить кости, во всех остальных случаях ход переходит ко второму
+игроку, но запоминается сумма выпавших очков. Если второй игрок не
+выигрывает абсолютно, то выигрывает тот игрок, у которого больше
+очков. Результат игры и значения выпавших костей выводить на экран с
+помощью функции print. }
+
+\begin{lstlisting}[language=Lisp]
+
+(defun get_points () (+ (random 6) 1))
+
+(defun abs_win (sum) (or (= sum 7) (= sum 11)) )
+
+(defun roll_of_dice (player) 
+    (let ((ps1 (get_points)) (ps2 (get_points)))
+          (print (list 'Player player 'got ps1 ps2))
+          (cond 
+            ((abs_win (+ ps1 ps2)) 0)
+            ((and (= ps1 ps2) (or (= ps1 1) (= ps1 6))) (roll_of_dice player))
+            (T (+ ps1 ps2)) ) ) )
+  
+(defun game_result (res1 res2) 
+    (if (= 0 res2)
+        (print "Player 2 won absolutely")
+        (cond 
+            ((< res1 res2) (print "Player 2 won"))
+            ((> res1 res2) (print "Player 1 won"))
+            (T (print "Draw")) ) ) )
+
+(defun play () 
+    (let ((res1 (roll_of_dice 1)))
+         (if (= 0 res1) 
+             (print "Player 1 won absolutely")
+             (game_result res1 (roll_of_dice 2)) ) ) )
+
+\end{lstlisting}
+
+
+\section{Написать функцию, которая по своему списку-аргументу lst определяет
+является ли он палиндромом (то есть равны ли lst и (reverse lst)).}
+
+\begin{lstlisting}[language=Lisp]
+; v1
+(defun f1 (lst)
+    (equal lst (reverse lst)) )
+
+; v2
+(defun without-last (lst) 
+    (reverse (cdr (reverse lst))) )
+    
+(defun f2 (lst)
+    (if (> (length lst) 1) 
+        (and (eql (car lst) (car (reverse lst))) 
+             (f2 (cdr (without-last lst))) )
+        (and T) ) )
+
+\end{lstlisting}
+
+
+\section{Напишите свои необходимые функции, которые обрабатывают таблицу из
+4-х точечных пар: (страна . столица), и возвращают по стране --- столицу, а по столице --- страну.}
+
+\begin{lstlisting}[language=Lisp]
+; 
+; v1
+(defun get-capital (table country)
+    (cdr (assoc country table)) )
+;v2
+(defun get-capital (table country)
+    (cond 
+        ((eql (caar table) country) (cdar table))
+        ((eql (caadr table) country) (cdadr table)) 
+        ((eql (caaddr table) country) (cdaddr table))
+        ((eql (caadddr table) country) (cdadddr table)) ) )
+
+;
+; v1
+(defun get-country (table capital)
+    (car (rassoc capital table)) )
+; v2
+(defun get-country (table capital)
+    (cond 
+        ((eql (cdar table) capital) (caar table))
+        ((eql (cdadr table) capital) (caadr table)) 
+        ((eql (cdaddr table) capital) (caaddr table))
+        ((eql (cdadddr table) capital) (caadddr table)) ) )
+\end{lstlisting}
+
+
+\section{Напишите функцию, которая умножает на заданное число-аргумент
+первый числовой элемент списка из заданного 3-х элементного списка-аргумента, когда a) все элементы списка --- числа, б) элементы списка -- любые объекты.}
+
+\begin{lstlisting}[language=Lisp]
+; a
+(defun f1 (lst num)
+    (cons (* num (car lst)) (cdr lst) ) )
+
+; b
+(defun f2 (lst num)
+    (cond 
+        ((numberp (car lst))  (cons (* num (car lst)) (cdr lst)) )
+        ((numberp (cadr lst)) (list (car lst) (* num (cadr lst)) (caddr lst)) )
+        ((numberp (caddr lst)) (list (car lst) (cadr lst) (* num (caddr lst))) )
+        (T lst) ) )
+\end{lstlisting}
+
+
+
+\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+\bibliography{51-biblio}          % имя библиографической базы (bib-файла)
+	
+\end{document}
