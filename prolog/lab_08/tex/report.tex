@@ -1,0 +1,236 @@
+
+
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[14pt]{extsizes}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{eucal}
+\usepackage{enumitem}
+%s\documentclass[openany]{book}
+\frenchspacing
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalsize\bfseries}
+{\thesection}
+{1em}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+\usepackage{indentfirst} % Красная строка
+
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\newcommand{\img}[3] {
+    \begin{figure}[h]
+        \center{\includegraphics[height=#1]{img/#2}}
+        \caption{#3}
+        \label{img:#2}
+    \end{figure}
+}
+
+
+% Для листинга кода:
+\lstset{ %
+	language=prolog,                 % выбор языка для подсветки 
+	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
+	numbers=left,               % где поставить нумерацию строк (слева\справа)
+	numberstyle=\tiny,           % размер шрифта для номеров строк
+	stepnumber=1,                   % размер шага между двумя номерами строк
+	numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
+	showspaces=false,            % показывать или нет пробелы специальными отступами
+	showstringspaces=false,      % показывать или нет пробелы в строках
+	showtabs=false,             % показывать или нет табуляцию в строках
+	frame=single,              % рисовать рамку вокруг кода
+	tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
+	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+	breaklines=true,           % автоматически переносить строки (да\нет)
+	breakatwhitespace=false, % переносить строки только если есть пробел
+	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+}
+
+
+\usepackage[left=3cm,right=1.5cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+% Для измененных титулов глав:
+\usepackage{titlesec, blindtext, color} % подключаем нужные пакеты
+\definecolor{gray75}{gray}{0.75} % определяем цвет
+\newcommand{\hsp}{\hspace{20pt}} % длина линии в 20pt
+% titleformat определяет стиль
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{18pt}{\Large\bfseries}
+
+
+% plot
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\begin{document}
+	%\def\chaptername{} % убирает "Глава"
+	\thispagestyle{empty}
+	\begin{titlepage}
+		\noindent \begin{minipage}{0.15\textwidth}
+			\includegraphics[width=\linewidth]{img/b_logo}
+		\end{minipage}
+		\noindent\begin{minipage}{0.9\textwidth}\centering
+			\textbf{Министерство науки и высшего образования Российской Федерации}\\
+			\textbf{Федеральное государственное бюджетное образовательное учреждение высшего образования}\\
+			\textbf{~~~«Московский государственный технический университет имени Н.Э.~Баумана}\\
+			\textbf{(национальный исследовательский университет)»}\\
+			\textbf{(МГТУ им. Н.Э.~Баумана)}
+		\end{minipage}
+		
+		\noindent\rule{18cm}{3pt}
+		\newline\newline
+		\noindent ФАКУЛЬТЕТ $\underline{\text{«Информатика и системы управления»}}$ \newline\newline
+		\noindent КАФЕДРА $\underline{\text{«Программное обеспечение ЭВМ и информационные технологии»}}$\newline\newline\newline\newline\newline
+		
+		\begin{center}
+			\noindent\begin{minipage}{1.1\textwidth}\centering
+				\Large\textbf{  Отчет по лабораторной работе №8}\newline
+				\textbf{по дисциплине <<Функциональное и логическое}\newline
+				\textbf{~~~программирование>>}\newline\newline
+			\end{minipage}
+		\end{center}
+		
+		\noindent\textbf{Тема} $\underline{\text{Среда Visual Prolog~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Студент} $\underline{\text{Завойских Е.В.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Группа} $\underline{\text{ИУ7-63Б~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Оценка (баллы)} $\underline{\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Преподаватели} $\underline{\text{Толпинская Н.Б., Строганов Ю.В.~~~~~~~~~~~~~}}$\newline\newline\newline
+		
+		\begin{center}
+			\vfill
+			Москва~---~\the\year
+			~г.
+		\end{center}
+	\end{titlepage}
+		
+
+\section*{Задание}
+
+Создать базу знаний «Собственники», дополнив (и минимально изменив) базу
+знаний, хранящую знания (лаб. 7):
+
+\begin{itemize}
+    \item «Телефонный справочник»: Фамилия, №тел, Адрес --- структура (Город, Улица, №дома, №кв),
+    \item «Автомобили»: Фамилия\_владельца, Марка, Цвет, Стоимость, и др.,
+    \item «Вкладчики банков»: Фамилия, Банк, счет, сумма, и др. знаниями о дополнительной собственности владельца. Преобразовать знания об автомобиле к форме знаний о собственности.
+\end{itemize}
+
+Вид собственности (кроме автомобиля):
+
+\begin{itemize}
+    \item Строение, стоимость и другие его характеристики;
+    \item Участок, стоимость и другие его характеристики;
+    \item Водный\_транспорт, стоимость и другие его характеристики.
+\end{itemize}
+
+Описать и использовать вариантный домен: Собственность. Владелец может иметь, но только один объект каждого вида собственности (это касается и автомобиля), или не иметь некоторых видов собственности.
+
+Используя конъюнктивное правило и разные формы задания одного вопроса (пояснять для какого задания --- какой вопрос), обеспечить возможность поиска:
+
+\begin{enumerate}
+    \item Названий всех объектов собственности заданного субъекта,
+    \item Названий и стоимости всех объектов собственности заданного субъекта,
+    \item * Разработать правило, позволяющее найти суммарную стоимость всех
+    объектов собственности заданного субъекта.
+\end{enumerate}
+
+Для 2-го пункт и одной фамилии составить таблицу, отражающую конкретный
+порядок работы системы, с объяснениями порядка работы и особенностей использования доменов (указать конкретные Т1 и Т2 и полную подстановку на каждом шаге).
+
+\begin{lstlisting}[language=Prolog]
+domains
+	surname, phone = string.
+	color = string.
+	cost, num = integer.
+	city, street = string.
+	house, flat = integer.
+	address = address_struct(city, street, house, flat).
+	bank = string.
+	account, sum = integer.
+	name, type = string.
+	
+	own = car(name, color, cost);
+	      building(name, cost);
+	      sector(name, cost);
+	      water_transport(name, cost). 
+
+predicates
+	phone_dir(surname, phone, address).
+	owner(surname, own).
+	bank_depositor(surname, bank, account, sum).
+	
+	own_name_and_cost(surname, type, name, cost).
+	own_name(surname, type, name).
+	own_type(surname, type, cost).
+	own_sum_cost(surname, cost).
+	
+clauses
+	phone_dir("Kozlov", "+79876576000", address_struct("Saint-Petersburg", "Mira", 4, 12)).
+	phone_dir("Sabirova", "+79800006533", address_struct("Kazan", "Leninskaya", 31, 33)).
+	phone_dir("Orehov", "+79876589577", address_struct("Saint-Petersburg", "Annikova", 23, 4)).
+	phone_dir("Malkov", "+79876576444", address_struct("Nizhny Novgorod", "Annikova", 48, 1)).
+	
+	owner("Kozlov", car("mersedes", "yellow", 30000)).
+	owner("Kozlov", building("house", 100000)).
+	owner("Sabirova", car("lada", "black", 3000)).
+	owner("Sabirova", building("castle", 300000)).
+	owner("Sabirova", sector("region", 400000)).
+ 	owner("Sabirova", water_transport("plot", 4000)).
+	owner("Orehov", car("tesla", "black", 100000)).
+	owner("Malkov", car("mersedes", "yellow", 1200)).
+	owner("Malkov", water_transport("boat", 10000)).
+	
+	bank_depositor("Kozlov", "VTB", 1234, 100000).
+	bank_depositor("Sabirova", "VTB", 51234, 500000).
+	bank_depositor("Sabirova", "Sber", 5123, 700000).
+	bank_depositor("Orehov", "Tinkoff", 456, 500000).
+	bank_depositor("Malkov", "Sber", 45556, 400000).
+	
+	own_name_and_cost(Surname, "car", Name, Cost) :- owner(Surname, car(Name, _, Cost)).
+	own_name_and_cost(Surname, "building", Name, Cost) :- owner(Surname, building(Name, Cost)).
+	own_name_and_cost(Surname, "sector", Name, Cost) :- owner(Surname, sector(Name, Cost)).
+	own_name_and_cost(Surname, "water_transport", Name, Cost) :- owner(Surname, water_transport(Name, Cost)).
+	
+	own_name(Surname, Type, Name) :- own_name_and_cost(Surname, Type, Name, _).
+	
+	own_type(Surname, "car", Cost) :- owner(Surname, car(_, _, Cost)), !.
+	own_type(Surname, "building", Cost) :- owner(Surname, building(_, Cost)), !.
+	own_type(Surname, "sector", Cost) :- owner(Surname, sector(_, Cost)), !.
+	own_type(Surname, "water_transport", Cost) :- owner(Surname, water_transport(_, Cost)), !.
+	own_type(_, _, 0).
+	
+	own_sum_cost(Surname, Cost) :- 
+                            own_type(Surname, "car", Cost1),
+                            own_type(Surname, "building", Cost2),
+                            own_type(Surname, "sector", Cost3),
+                            own_type(Surname, "water_transport", Cost4),
+                            Cost = Cost1 + Cost2 + Cost3 + Cost4.
+				       
+goal
+	%own_name("Kozlov", Type, Name).
+	%own_name_and_cost("Sabirova", Type, Name, Cost).
+	own_sum_cost("Sabirova", Cost).
+\end{lstlisting}
+
+
+
+\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+\bibliography{51-biblio}          % имя библиографической базы (bib-файла)
+	
+\end{document}
