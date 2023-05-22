@@ -1,0 +1,234 @@
+
+
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[14pt]{extsizes}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{eucal}
+\usepackage{enumitem}
+%s\documentclass[openany]{book}
+\frenchspacing
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalsize\bfseries}
+{\thesection}
+{1em}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+\usepackage{indentfirst} % Красная строка
+
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\newcommand{\img}[3] {
+    \begin{figure}[h]
+        \center{\includegraphics[height=#1]{img/#2}}
+        \caption{#3}
+        \label{img:#2}
+    \end{figure}
+}
+
+
+% Для листинга кода:
+\lstset{ %
+	language=prolog,                 % выбор языка для подсветки 
+	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
+	numbers=left,               % где поставить нумерацию строк (слева\справа)
+	numberstyle=\tiny,           % размер шрифта для номеров строк
+	stepnumber=1,                   % размер шага между двумя номерами строк
+	numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
+	showspaces=false,            % показывать или нет пробелы специальными отступами
+	showstringspaces=false,      % показывать или нет пробелы в строках
+	showtabs=false,             % показывать или нет табуляцию в строках
+	frame=single,              % рисовать рамку вокруг кода
+	tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
+	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+	breaklines=true,           % автоматически переносить строки (да\нет)
+	breakatwhitespace=false, % переносить строки только если есть пробел
+	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+}
+
+
+\usepackage[left=3cm,right=1.5cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+% Для измененных титулов глав:
+\usepackage{titlesec, blindtext, color} % подключаем нужные пакеты
+\definecolor{gray75}{gray}{0.75} % определяем цвет
+\newcommand{\hsp}{\hspace{20pt}} % длина линии в 20pt
+% titleformat определяет стиль
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{18pt}{\Large\bfseries}
+
+
+% plot
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\begin{document}
+	%\def\chaptername{} % убирает "Глава"
+	\thispagestyle{empty}
+	\begin{titlepage}
+		\noindent \begin{minipage}{0.15\textwidth}
+			\includegraphics[width=\linewidth]{img/b_logo}
+		\end{minipage}
+		\noindent\begin{minipage}{0.9\textwidth}\centering
+			\textbf{Министерство науки и высшего образования Российской Федерации}\\
+			\textbf{Федеральное государственное бюджетное образовательное учреждение высшего образования}\\
+			\textbf{~~~«Московский государственный технический университет имени Н.Э.~Баумана}\\
+			\textbf{(национальный исследовательский университет)»}\\
+			\textbf{(МГТУ им. Н.Э.~Баумана)}
+		\end{minipage}
+		
+		\noindent\rule{18cm}{3pt}
+		\newline\newline
+		\noindent ФАКУЛЬТЕТ $\underline{\text{«Информатика и системы управления»}}$ \newline\newline
+		\noindent КАФЕДРА $\underline{\text{«Программное обеспечение ЭВМ и информационные технологии»}}$\newline\newline\newline\newline\newline
+		
+		\begin{center}
+			\noindent\begin{minipage}{1.1\textwidth}\centering
+				\Large\textbf{  Отчет по лабораторной работе №9}\newline
+				\textbf{по дисциплине <<Функциональное и логическое}\newline
+				\textbf{~~~программирование>>}\newline\newline
+			\end{minipage}
+		\end{center}
+		
+		\noindent\textbf{Тема} $\underline{\text{Использование правил в программе на Prolog~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Студент} $\underline{\text{Завойских Е.В.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Группа} $\underline{\text{ИУ7-63Б~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Оценка (баллы)} $\underline{\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Преподаватели} $\underline{\text{Толпинская Н.Б., Строганов Ю.В.~~~~~~~~~~~~~}}$\newline\newline\newline
+		
+		\begin{center}
+			\vfill
+			Москва~---~\the\year
+			~г.
+		\end{center}
+	\end{titlepage}
+		
+
+\section*{Задание}
+
+\textbf{1. Создать базу знаний «Предки»}, позволяющую наиболее эффективным способом (за меньшее количество шагов, что обеспечивается меньшим количеством предложений БЗ --- правил), и используя разные варианты (примеры) простого вопроса, (указать: какой вопрос для какого варианта) определить:
+
+\begin{enumerate}
+    \item по имени субъекта определить всех его бабушек (предки 2-го колена),
+    \item по имени субъекта определить всех его дедушек (предки 2-го колена),
+    \item по имени субъекта определить всех его бабушек и дедушек (предки 2-го колена),
+    \item по имени субъекта определить его бабушку по материнской линии (предки 2-го колена),
+    \item по имени субъекта определить его бабушку и дедушку по материнской линии
+(предки 2-го колена).
+\end{enumerate}
+
+Минимизировать количество правил и количество вариантов вопросов. Использовать конъюнктивные правила и простой вопрос. Для одного из вариантов ВОПРОСА задания 1 составить таблицу, отражающую конкретный порядок работы системы.
+
+\begin{lstlisting}[language=Prolog]
+domains 	
+	name, sex = string.  
+	
+predicates 	
+	parent(name, name, sex).         
+	grandparent(name, name, sex, sex). 
+	
+clauses 
+	parent("child", "mom", "w").
+	parent("child", "dad", "m").
+	parent("mom", "mom of mom", "w").
+	parent("mom", "dad of mom", "m").
+	parent("dad", "mom of dad", "w").
+	parent("dad", "dad of dad", "m").
+	
+	grandparent(Child, Grandparent, ParentSex, GrandparentSex) :- parent(Child, Parent, ParentSex), parent(Parent, Grandparent, GrandparentSex).
+
+goal 	
+	%grandparent("child", Name, _, "w"). 
+	%grandparent("child", Name, _, "m"). 
+	%grandparent("child", Name, _, _). 
+	%grandparent("child", Name, "w", "w"). 
+	grandparent("child", Name, "w", _).  
+ 
+\end{lstlisting}
+
+\textbf{2. Дополнить базу знаний правилами, позволяющими найти}
+
+1. Максимум из двух чисел
+
+а) без использования отсечения,
+
+в) с использованием отсечения;
+
+2. Максимум из трех чисел
+
+а) без использования отсечения,
+
+в) с использованием отсечения;
+
+Убедиться в правильности результатов.
+
+Для каждого случая пункта 2 обосновать необходимость всех условий тела.
+Для одного из вариантов ВОПРОСА и каждого варианта задания 2 составить
+таблицу, отражающую конкретный порядок работы системы.
+
+Для одного из вариантов ВОПРОСА и конкретной БЗ составить таблицу, отражающую конкретный порядок работы системы, с объяснениями: очередная проблема на каждом шаге и метод ее решения; каково новое текущее состояние резольвенты, как получено; какие дальнейшие действия? (Запускается ли алгоритм унификации? Каких термов? Почему этих?); вывод по результатам очередного шага и дальнейшие действия.
+
+\begin{lstlisting}[language=Prolog]
+domains
+	num = integer.
+
+predicates
+	max_1_1(num, num, num).
+	max_1_2(num, num, num).
+	max_2_1(num, num, num, num).
+	max_2_2(num, num, num, num).
+	
+clauses
+	max_1_1(N1, N2, N2) :- N2 >= N1.
+	max_1_1(N1, N2, N1) :- N1 > N2.
+	
+	max_1_2(N1, N2, N2) :- N2 >= N1, !.
+	max_1_2(N1, _, N1).
+	
+	max_2_1(N1, N2, N3, N1) :- N1 >= N2, N1 >= N3.
+	max_2_1(N1, N2, N3, N2) :- N2 >= N1, N2 >= N3.
+	max_2_1(N1, N2, N3, N3) :- N3 >= N1, N3 >= N2.
+	
+	max_2_2(N1, N2, N3, N1) :- N1 >= N2, N1 >= N3, !.
+	max_2_2(_, N2, N3, N2) :- N2 >= N3, !.
+	max_2_2(_, _, N3, N3).
+	
+goal
+	%max_1_1(1, 3, Max).
+	%max_1_1(3, 1, Max).
+	
+	%max_1_2(1, 3, Max).
+	%max_1_2(3, 1, Max).
+	
+	%max_2_1(1, 2, 3, Max).
+	%max_2_1(1, 3, 2, Max).
+	%max_2_1(3, 2, 1, Max).
+	
+	%max_2_2(1, 2, 3, Max).
+	%max_2_2(1, 3, 2, Max).
+	max_2_2(3, 2, 1, Max).
+ 
+\end{lstlisting}
+
+
+
+\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+\bibliography{51-biblio}          % имя библиографической базы (bib-файла)
+	
+\end{document}
