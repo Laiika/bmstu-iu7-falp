@@ -1,0 +1,228 @@
+
+
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[14pt]{extsizes}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{eucal}
+\usepackage{enumitem}
+%s\documentclass[openany]{book}
+\frenchspacing
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\normalsize\bfseries}
+{\thesection}
+{1em}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
+\titlespacing*{\section}{\parindent}{*4}{*4}
+\titlespacing*{\subsection}{\parindent}{*4}{*4}
+
+\usepackage{indentfirst} % Красная строка
+
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\newcommand{\img}[3] {
+    \begin{figure}[h]
+        \center{\includegraphics[height=#1]{img/#2}}
+        \caption{#3}
+        \label{img:#2}
+    \end{figure}
+}
+
+
+% Для листинга кода:
+\lstset{ %
+	language=prolog,                 % выбор языка для подсветки 
+	basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
+	numbers=left,               % где поставить нумерацию строк (слева\справа)
+	numberstyle=\tiny,           % размер шрифта для номеров строк
+	stepnumber=1,                   % размер шага между двумя номерами строк
+	numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
+	showspaces=false,            % показывать или нет пробелы специальными отступами
+	showstringspaces=false,      % показывать или нет пробелы в строках
+	showtabs=false,             % показывать или нет табуляцию в строках
+	frame=single,              % рисовать рамку вокруг кода
+	tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
+	captionpos=t,              % позиция заголовка вверху [t] или внизу [b] 
+	breaklines=true,           % автоматически переносить строки (да\нет)
+	breakatwhitespace=false, % переносить строки только если есть пробел
+	escapeinside={\#*}{*)}   % если нужно добавить комментарии в коде
+}
+
+
+\usepackage[left=3cm,right=1.5cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+% Для измененных титулов глав:
+\usepackage{titlesec, blindtext, color} % подключаем нужные пакеты
+\definecolor{gray75}{gray}{0.75} % определяем цвет
+\newcommand{\hsp}{\hspace{20pt}} % длина линии в 20pt
+% titleformat определяет стиль
+\titleformat{\chapter}{\LARGE\bfseries}{\thechapter}{20pt}{\LARGE\bfseries}
+\titleformat{\section}{\Large\bfseries}{\thesection}{18pt}{\Large\bfseries}
+
+
+% plot
+\usepackage{pgfplots}
+\usepackage{filecontents}
+\usetikzlibrary{datavisualization}
+\usetikzlibrary{datavisualization.formats.functions}
+
+\begin{document}
+	%\def\chaptername{} % убирает "Глава"
+	\thispagestyle{empty}
+	\begin{titlepage}
+		\noindent \begin{minipage}{0.15\textwidth}
+			\includegraphics[width=\linewidth]{img/b_logo}
+		\end{minipage}
+		\noindent\begin{minipage}{0.9\textwidth}\centering
+			\textbf{Министерство науки и высшего образования Российской Федерации}\\
+			\textbf{Федеральное государственное бюджетное образовательное учреждение высшего образования}\\
+			\textbf{~~~«Московский государственный технический университет имени Н.Э.~Баумана}\\
+			\textbf{(национальный исследовательский университет)»}\\
+			\textbf{(МГТУ им. Н.Э.~Баумана)}
+		\end{minipage}
+		
+		\noindent\rule{18cm}{3pt}
+		\newline\newline
+		\noindent ФАКУЛЬТЕТ $\underline{\text{«Информатика и системы управления»}}$ \newline\newline
+		\noindent КАФЕДРА $\underline{\text{«Программное обеспечение ЭВМ и информационные технологии»}}$\newline\newline\newline\newline\newline
+		
+		\begin{center}
+			\noindent\begin{minipage}{1.1\textwidth}\centering
+				\Large\textbf{  Отчет по лабораторной работе №11}\newline
+				\textbf{по дисциплине <<Функциональное и логическое}\newline
+				\textbf{~~~программирование>>}\newline\newline
+			\end{minipage}
+		\end{center}
+		
+		\noindent\textbf{Тема} $\underline{\text{Рекурсия на Prolog~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Студент} $\underline{\text{Завойских Е.В.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Группа} $\underline{\text{ИУ7-63Б~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Оценка (баллы)} $\underline{\text{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}$\newline\newline
+		\noindent\textbf{Преподаватели} $\underline{\text{Толпинская Н.Б., Строганов Ю.В.~~~~~~~~~~~~~}}$\newline\newline\newline
+		
+		\begin{center}
+			\vfill
+			Москва~---~\the\year
+			~г.
+		\end{center}
+	\end{titlepage}
+		
+
+\section*{Задание}
+
+Используя хвостовую рекурсию, разработать (комментируя назначение
+аргументов) эффективную программу , позволяющую:
+
+1. Найти длину списка (по верхнему уровню);
+
+2. Найти сумму элементов числового списка;
+
+3. Найти сумму элементов числового списка, стоящих на нечетных позициях исходного списка (нумерация от 0);
+
+4. Сформировать список из элементов числового списка, больших заданного значения;
+
+5. Удалить заданный элемент из списка (один или все вхождения);
+
+6. Объединить два списка.
+
+\begin{lstlisting}[language=Prolog]
+domains
+	list = integer*.
+	num = integer.
+
+predicates
+	len_r(list, num, num).
+	len(list, num).
+	
+	sum_r(list, num, num).
+	sum(list, num).
+	
+	sum2_r(list, num, num).
+	sum2(list, num).
+	
+	els_large_r(list, list, num, list).
+	els_large(list, list, num).
+	
+	del_el_r(list, list, num, list).
+	del_el(list, list, num).
+	
+	merge(list, list, list).
+	
+	
+clauses
+	% 1
+	len_r([], Res, Res) :- !.
+	len_r([_|T], Res, Cur) :- Cur2 = Cur + 1, 
+			   	  len_r(T, Res, Cur2).
+	
+	len(L, Res) :- len_r(L, Res, 0).
+	
+	%2
+	sum_r([], Res, Res) :- !.
+	sum_r([H|T], Res, Cur) :- Cur2 = Cur + H,
+				  sum_r(T, Res, Cur2).
+				  
+	sum(L, Res) :- sum_r(L, Res, 0).
+	
+	%3
+	sum2_r([], Res, Res) :- !.
+	
+	sum2_r([_], Res, Res) :- !.
+	
+	sum2_r([_, H|T], Res, Cur) :- Cur2 = Cur + H,
+				      sum2_r(T, Res, Cur2).
+				  
+	sum2(L, Res) :- sum2_r(L, Res, 0).
+	
+	%4
+	els_large_r([], Res, _, Res) :- !.
+	
+	els_large_r([H|T], Res, N, Cur) :- H > N, !,
+				  	   els_large_r(T, Res, N, [H|Cur]).
+				  	   
+	els_large_r([_|T], Res, N, Cur) :- els_large_r(T, Res, N, Cur).
+				  	   
+				  
+	els_large(L, Res, N) :- els_large_r(L, Res, N, []).
+	
+	%5
+	del_el_r([], Res, _, Res) :- !.
+	
+	del_el_r([H|T], Res, N, Cur) :- H <> N, !,
+				  	del_el_r(T, Res, N, [H|Cur]).
+				  	   
+	del_el_r([_|T], Res, N, Cur) :- del_el_r(T, Res, N, Cur).
+				  	   
+				  
+	del_el(L, Res, N) :- del_el_r(L, Res, N, []).
+	
+	%6
+	merge([], L2, L2) :- !.
+	merge([H|T], L2, [H|T3]):- merge(T, L2, T3).
+	
+goal
+	%len([1, 2, 3, 4, 5], Res).
+	%sum([1, 2, 3, 4, 5], Res).
+	%sum2([1, 2, 3, 4, 5], Res).
+	%els_large([3, 4, 5, 1, 0], Res, 2).
+	%del_el([3, 4, 5, 1, 0, 4], Res, 4).
+	merge([3, 4, 5], [1, 0], Res).
+\end{lstlisting}
+
+
+\bibliographystyle{utf8gost705u}  % стилевой файл для оформления по ГОСТу
+\bibliography{51-biblio}          % имя библиографической базы (bib-файла)
+	
+\end{document}
